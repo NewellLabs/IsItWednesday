@@ -1,7 +1,7 @@
 ﻿@using System.Timers
 @page "/"
 
-<h1>@(_wednesday ? "YES" : "NO")</h1>
+<h1 class="text-lg-center @(_wednesday ? "text-success" : "text-danger")">@(_wednesday ? "YES" : "NO")</h1>
 
 @functions
 {
