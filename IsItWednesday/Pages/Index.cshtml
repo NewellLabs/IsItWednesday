@@ -1,7 +1,7 @@
 ﻿@using System.Timers
 @page "/"
 
-<h1 class="text-lg-center @(_wednesday ? "text-success" : "text-danger")">@(_wednesday ? "YES" : "NO")</h1>
+<h1 class="text-center @(_wednesday ? "text-success" : "text-danger")">@(_wednesday ? "YES" : "NO")</h1>
 
 @functions
 {
@@ -26,8 +26,8 @@
 
     private static bool IsItWed()
     {
-        var now = DateTime.Now;
-        now.Subtract(new TimeSpan(4, 0, 0));
+        // Hardcode EDT for now
+        var now = DateTime.Now.ToUniversalTime().Subtract(new TimeSpan(4, 0, 0));
         return now.DayOfWeek == DayOfWeek.Wednesday;
     }
 }
