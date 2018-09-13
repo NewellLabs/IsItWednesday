@@ -26,8 +26,8 @@
 
     private static bool IsItWed()
     {
-        // Hardcode EDT for now
-        var now = DateTime.Now.ToUniversalTime().Subtract(new TimeSpan(4, 0, 0));
-        return now.DayOfWeek == DayOfWeek.Wednesday;
+        var now = DateTime.Now;
+
+        return now.DayOfWeek == DayOfWeek.Wednesday || (now.DayOfWeek == DayOfWeek.Thursday && now.Hour < 2);
     }
 }
