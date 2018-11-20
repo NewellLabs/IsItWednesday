@@ -1,7 +1,13 @@
-﻿@using System.Timers
+﻿@using System.Diagnostics
+@using System.Reflection
+@using System.Timers
 @page "/"
 
 <h1 class="text-center text-lg @(_wednesday ? "text-success" : "text-danger")">@(_wednesday ? "YES" : "NO")</h1>
+
+<div class="fixed-bottom">
+    <p class="text-sm-center">@_version - @_now</p>
+</div>
 
 @functions
 {
@@ -14,8 +20,12 @@
 
     private static readonly TimeSpan Offset = new TimeSpan(5, 0, 0);
 
+    private static string _version;
+
     protected override async Task OnInitAsync()
     {
+        _version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
         TimerOnElapsed(null, null);
         _timer = new Timer(1000);
         _timer.Elapsed += TimerOnElapsed;
