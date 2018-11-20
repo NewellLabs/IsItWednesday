@@ -10,6 +10,10 @@
 
     Timer _timer;
 
+    DateTime _now;
+
+    private static readonly TimeSpan Offset = new TimeSpan(5, 0, 0);
+
     protected override async Task OnInitAsync()
     {
         TimerOnElapsed(null, null);
@@ -24,10 +28,10 @@
         StateHasChanged();
     }
 
-    private static bool IsItWed()
+    private bool IsItWed()
     {
-        var now = DateTime.Now;
+        _now = DateTime.Now.Subtract(Offset);
 
-        return now.DayOfWeek == DayOfWeek.Wednesday || (now.DayOfWeek == DayOfWeek.Thursday && now.Hour < 2);
+        return _now.DayOfWeek == DayOfWeek.Wednesday || (_now.DayOfWeek == DayOfWeek.Thursday && _now.Hour < 2);
     }
 }
