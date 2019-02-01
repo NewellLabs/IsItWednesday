@@ -1,0 +1,21 @@
+﻿@page "/karaoke"
+
+<YesNo Predicate=IsItKaraoke />
+
+@functions
+{
+
+    private bool IsItKaraoke(DayOfWeek day)
+    {
+        switch (day)
+        {
+            case DayOfWeek.Thursday:
+            case DayOfWeek.Friday:
+            case DayOfWeek.Saturday:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+}

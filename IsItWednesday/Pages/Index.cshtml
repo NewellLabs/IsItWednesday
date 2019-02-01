@@ -3,45 +3,13 @@
 @using System.Timers
 @page "/"
 
-<h1 class="text-center text-lg @(_wednesday ? "text-success" : "text-danger")">@(_wednesday ? "YES" : "NO")</h1>
-
-<div class="fixed-bottom">
-    <p class="text-sm-center">@_version - @_now</p>
-</div>
+<YesNo Predicate=@IsItWed />
 
 @functions
 {
-    
-    bool _wednesday;
 
-    Timer _timer;
-
-    DateTime _now;
-
-    private static readonly TimeSpan Offset = new TimeSpan(5, 0, 0);
-
-    private static string _version;
-
-    protected override async Task OnInitAsync()
+    private bool IsItWed(DayOfWeek day)
     {
-        _version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
-        TimerOnElapsed(null, null);
-        _timer = new Timer(1000);
-        _timer.Elapsed += TimerOnElapsed;
-        _timer.Start();
-    }
-
-    private void TimerOnElapsed(object sender, ElapsedEventArgs e)
-    {
-        _wednesday = IsItWed();
-        StateHasChanged();
-    }
-
-    private bool IsItWed()
-    {
-        _now = DateTime.Now.Subtract(Offset);
-
-        return _now.DayOfWeek == DayOfWeek.Wednesday || (_now.DayOfWeek == DayOfWeek.Thursday && _now.Hour < 2);
+        return day == DayOfWeek.Wednesday;
     }
 }

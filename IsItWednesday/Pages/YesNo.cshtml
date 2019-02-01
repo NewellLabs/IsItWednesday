@@ -1,0 +1,51 @@
+﻿@using System.Reflection
+@using System.Timers
+
+<h1 class="text-center text-lg @(_yes ? "text-success" : "text-danger")">@(_yes ? "YES" : "NO")</h1>
+
+<div class="fixed-bottom">
+    <p class="text-sm-center">@_version - @_now</p>
+</div>
+
+@functions 
+{
+    [Parameter]
+    private Func<DayOfWeek, bool> Predicate { get; set; }
+
+    private bool _yes;
+
+    Timer _timer;
+
+    DateTime _now;
+
+    private static readonly TimeSpan Offset = new TimeSpan(5, 0, 0);
+
+    private static readonly TimeSpan LastCall = new TimeSpan(2, 0, 0);
+
+    private static string _version;
+
+    protected override async Task OnInitAsync()
+    {
+        _version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+        TimerOnElapsed(null, null);
+        _timer = new Timer(1000);
+        _timer.Elapsed += TimerOnElapsed;
+        _timer.Start();
+    }
+
+    private void TimerOnElapsed(object sender, ElapsedEventArgs e)
+    {
+        _yes = IsItYes();
+        StateHasChanged();
+    }
+
+    private bool IsItYes()
+    {
+        _now = DateTime.Now.Subtract(Offset);
+
+        var nowLastCall = _now.Subtract(Offset);
+
+        return Predicate(_now.DayOfWeek);
+    }
+}
