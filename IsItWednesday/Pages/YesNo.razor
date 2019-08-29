@@ -10,7 +10,7 @@
 @functions 
 {
     [Parameter]
-    private Func<DayOfWeek, bool> Predicate { get; set; }
+    public Func<DayOfWeek, bool> Predicate { get; set; }
 
     private bool _yes;
 
@@ -24,7 +24,7 @@
 
     private static string _version;
 
-    protected override async Task OnInitAsync()
+    protected override void OnInitialized()
     {
         _version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
